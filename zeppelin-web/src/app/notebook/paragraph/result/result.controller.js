@@ -11,7 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+
+import TableData from '../../../tabledata/tabledata';
+import TableVisualization from '../../../visualization/builtins/visualization-table';
+import BarchartVisualization from '../../../visualization/builtins/visualization-barchart';
+import PiechartVisualization from '../../../visualization/builtins/visualization-piechart';
+import AreachartVisualization from '../../../visualization/builtins/visualization-areachart';
+import LinechartVisualization from '../../../visualization/builtins/visualization-linechart';
+import ScatterchartVisualization from '../../../visualization/builtins/visualization-scatterchart';
 
 (function() {
 
@@ -85,27 +92,27 @@
      */
     var builtInVisualizations = {
       'table': {
-        class: zeppelin.TableVisualization,
+        class: TableVisualization,
         instance: undefined   // created from setGraphMode()
       },
       'multiBarChart': {
-        class: zeppelin.BarchartVisualization,
+        class: BarchartVisualization,
         instance: undefined
       },
       'pieChart': {
-        class: zeppelin.PiechartVisualization,
+        class: PiechartVisualization,
         instance: undefined
       },
       'stackedAreaChart': {
-        class: zeppelin.AreachartVisualization,
+        class: AreachartVisualization,
         instance: undefined
       },
       'lineChart': {
-        class: zeppelin.LinechartVisualization,
+        class: LinechartVisualization,
         instance: undefined
       },
       'scatterChart': {
-        class: zeppelin.ScatterchartVisualization,
+        class: ScatterchartVisualization,
         instance: undefined
       }
     };
@@ -219,7 +226,6 @@
       enableHelium = (index === paragraphRef.results.msg.length - 1);
 
       if ($scope.type === 'TABLE') {
-        var TableData = zeppelin.TableData;
         tableData = new TableData();
         tableData.loadParagraphResult({type: $scope.type, msg: data});
         $scope.tableDataColumns = tableData.columns;
@@ -588,7 +594,7 @@
         var dsvRow = '';
         for (var index in row) {
           var stringValue =  (row[index]).toString();
-          if (stringValue.contains(delimiter)) {
+          if (stringValue.indexOf(delimiter) > -1) {
             dsvRow += '"' + stringValue + '"' + delimiter;
           } else {
             dsvRow += row[index] + delimiter;

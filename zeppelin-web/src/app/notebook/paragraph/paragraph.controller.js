@@ -11,7 +11,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
 (function() {
 
   angular.module('zeppelinWebApp').controller('ParagraphCtrl', ParagraphCtrl);
@@ -556,6 +555,11 @@
         $scope.editor.commands.removeCommand('showSettingsMenu');
 
         $scope.editor.commands.bindKey('ctrl-alt-l', null);
+        $scope.editor.commands.bindKey('ctrl-alt-w', null);
+        $scope.editor.commands.bindKey('ctrl-alt-a', null);
+        $scope.editor.commands.bindKey('ctrl-alt-k', null);
+        $scope.editor.commands.bindKey('ctrl-alt-e', null);
+        $scope.editor.commands.bindKey('ctrl-alt-t', null);
 
         // autocomplete on 'ctrl+.'
         $scope.editor.commands.bindKey('ctrl-.', 'startAutocomplete');
@@ -969,7 +973,7 @@
               $scope.dirtyText = undefined;
               $scope.originalText = angular.copy(data.paragraph.text);
             } else { // if there're local update, keep it.
-              $scope.paragraph.text = $scope.dirtyText;
+              $scope.paragraph.text = data.paragraph.text;
             }
           } else {
             $scope.paragraph.text = data.paragraph.text;
@@ -1092,10 +1096,12 @@
           } else {
             $scope.showTitle($scope.paragraph);
           }
-        }else if (keyEvent.ctrlKey && keyEvent.shiftKey && keyCode === 67) { // Ctrl + Alt + c
+        } else if (keyEvent.ctrlKey && keyEvent.shiftKey && keyCode === 67) { // Ctrl + Alt + c
           $scope.copyPara('below');
         } else if (keyEvent.ctrlKey && keyEvent.altKey && keyCode === 76) { // Ctrl + Alt + l
           $scope.clearParagraphOutput($scope.paragraph);
+        } else if (keyEvent.ctrlKey && keyEvent.altKey && keyCode === 87) { // Ctrl + Alt + w
+          $scope.goToSingleParagraph();
         } else {
           noShortcutDefined = true;
         }
